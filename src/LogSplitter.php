@@ -9,12 +9,14 @@ class LogSplitter
      */
     public function execute(string $line) : array
     {
-        $xdebug = true;
-
         $separated = $this->initArray();
 
         //
-        list($left, $separated['protocol'], $right) = explode(separator: '"', string: trim($line));
+        list(
+            $left,
+            $separated['protocol'],
+            $right
+            ) = explode(separator: '"', string: trim($line));
         if (isset($left)) {
             list(
                 $separated['ip'],
