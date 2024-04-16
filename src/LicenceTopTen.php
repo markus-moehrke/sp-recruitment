@@ -25,7 +25,14 @@ class LicenceTopTen
 
     public function getTop10() : array
     {
+        #echo 'before sorting' . PHP_EOL;
+        #print_r($this->ranking);
+
         $this->sort();
+
+        #echo 'after sorting' . PHP_EOL;
+        #print_r($this->ranking);
+
         return array_slice($this->ranking, 0, 10);
     }
 
@@ -48,24 +55,8 @@ class LicenceTopTen
      *
      * @return void
      */
-    private function sort() : void
+    private function sort() : void# vielleicht die falsche sortierung? das sind strings!
     {
-        usort($this->ranking, [LicenceTopTen::class, 'compare']);
-    }
-
-    /**
-     * Compare function for sort
-     *
-     * @param Licence $a
-     * @param Licence $b
-     * @return int
-     */
-    private function compare(Licence $a, Licence $b) : int
-    {
-        if ($a->getSerial() === $b->getSerial()) {
-            return 0;
-        }
-
-        return ($a->getSerial() < $b->getSerial()) ? -1 : 1;
+        usort($this->ranking, [Licence::class, 'compare']);
     }
 }

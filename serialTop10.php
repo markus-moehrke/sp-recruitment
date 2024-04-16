@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
 #const LOG_PATH = './data/firstRow.log';
-const LOG_PATH = './data/first4.log';
+#const LOG_PATH = './data/first4.log';
 #const LOG_PATH = './data/first50.log';       // 0.003805081
 #const LOG_PATH = './data/first500.log';      // 0.181668679
 #const LOG_PATH = './data/first5000.log';     // 15.766691089
-#const LOG_PATH = './data/first50000.log';
+const LOG_PATH = './data/first50000.log';// 1397.8472361565
 #const LOG_PATH = './data/first500000.log';
 #const LOG_PATH = './data/first5000000.log';
 #const LOG_PATH = './data/updatev12-access-pseudonymized.log';
@@ -51,16 +51,16 @@ try {
                 }
             }
         }
-        print_r(
-            $licences->getTop10()
-        );
+        #print_r(
+            $licences->getTop10();
+        #);
     } else {
         throw new Exception(message: 'Unable to open file');
     }
 } catch (Throwable $t) {
     echo sprintf(
         'Error: %s %s',
-        $t,
+        $t->getMessage(),
         PHP_EOL
     );
 }

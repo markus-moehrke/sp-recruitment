@@ -30,4 +30,9 @@ class Licence
     {
         $this->serial = $serial;
     }
+
+    public static function compare(Licence $b, Licence $a) : int
+    {
+        return strtolower($a->getCounter()) <=> strtolower($b->getCounter());
+    }
 }
