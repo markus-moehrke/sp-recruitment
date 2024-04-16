@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-const LOG_PATH = './data/first50.log';
+const LOG_PATH = './data/first50000.log';
 
 //------------------------------------------------------------------------------
 // Auto loader
