@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-class LicenceTopTen
+class MultipleDevicesTop10
 {
     private array $ranking;
 
@@ -11,7 +11,8 @@ class LicenceTopTen
 
     /**
      * Checks if licence is already in list.
-     * If yes, increment counter.
+     * If yes, checks if ip address matches the registered one.
+     *         If no, add ip address and increment counter.
      * If no, add new entry to list.
      *
      * @param Licence $licence
@@ -24,8 +25,16 @@ class LicenceTopTen
             // Add licence
             $this->ranking[] = $licence;
         } else {
-            // Increment counter
-            ($this->ranking[$key])->incrementCounter();
+            /** @var Licence $rankingLicence */
+            $rankingLicence = $this->ranking[$key];
+            $currentLicenceIps = $licence->getIps()[0];
+            if (!in_array(
+                needle: $currentLicenceIps,
+                haystack: $rankingLicence->getIps())
+            ) {
+                $rankingLicence->addIp($currentLicenceIps);
+                $rankingLicence->incrementCounter();
+            }
         }
     }
 
@@ -50,11 +59,6 @@ class LicenceTopTen
         return array_key_first($filteredArray);
     }
 
-    /**
-     * Sorts ranking list
-     *
-     * @return void
-     */
     private function sort() : void
     {
         usort(array: $this->ranking, callback: [Licence::class, 'compare']);

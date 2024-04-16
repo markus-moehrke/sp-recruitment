@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
-const LOG_PATH = './data/first500.log';      // 0.181668679
-#const LOG_PATH = './data/updatev12-access-pseudonymized.log';
+const LOG_PATH = './data/first50.log';
 
 //------------------------------------------------------------------------------
 // Auto loader
@@ -22,20 +21,20 @@ try {
     )) {
         $generator = new LogEntryGenerator($handle);
         $splitter = new LogSplitter();
-        $licences = new LicenceTopTen();
+        $multipleDevices = new MultipleDevicesTop10();
 
         foreach ($generator->execute() as $line) {
             if (is_string($line)) {
                 $separated = $splitter->execute(line: $line);
-                if (isset($separated['serial'])) {
-                    $licences->add(
-                        licence: new Licence($separated['serial'])
-                    );
+                if (isset($separated['serial']) && isset($separated['ip'])) {
+                    $licence = new Licence($separated['serial']);
+                    $licence->addIp(ip: $separated['ip']);
+                    $multipleDevices->add(licence: $licence);
                 }
             }
         }
 
-        $top10 = $licences->getTop10();
+        $top10 = $multipleDevices->getTop10();
         print_r($top10);
     } else {
         throw new Exception(message: 'Unable to open file');
