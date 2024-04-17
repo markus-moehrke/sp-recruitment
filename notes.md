@@ -37,3 +37,6 @@ foreach (getAllLines($file_handle) as $line) {
 }
 fclose($file_handle);
 ```
+## Run time behaviour
+Found the time killer. Maybe it's a bad idea to use the licence class. I need the
+serial number and the counter. What about two arrays instead of one object?

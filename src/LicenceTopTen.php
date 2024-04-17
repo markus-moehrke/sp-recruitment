@@ -36,6 +36,11 @@ class LicenceTopTen
         return array_slice(array: $this->ranking, offset: 0, length: 10);
     }
 
+    /**
+     * This is the time killer: searching in array for object
+     * @param Licence $licence
+     * @return int|null
+     */
     private function inArray(Licence $licence) : ?int
     {
         $searchedValue = $licence->getSerial();
