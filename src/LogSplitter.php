@@ -1,5 +1,8 @@
 <?php declare(strict_types=1);
 
+/**
+ * Extracts the data from log file row
+ */
 class LogSplitter
 {
     /**

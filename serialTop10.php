@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
-const LOG_PATH = './data/first5000.log';      // 0.181668679
-#const LOG_PATH = './data/updatev12-access-pseudonymized.log';
+const LOG_PATH = './data/updatev12-access-pseudonymized.log';
 
 //------------------------------------------------------------------------------
 // Auto loader
@@ -31,7 +30,7 @@ try {
                 $separated = $splitter->execute(line: $line);
                 if (isset($separated['serial'])) {
                     $licences->add(
-                        licence: new Licence($separated['serial'])
+                        serial: $separated['serial']
                     );
                 } else {
                     $malformed++;
@@ -40,8 +39,9 @@ try {
             $count++;
         }
 
-        #$top10 = $licences->getTop10();
-        print($count . '/' . $malformed . PHP_EOL);
+        $top10 = $licences->getTop10();
+        print_r($top10);
+        print $count . '/' . $malformed . PHP_EOL;
     } else {
         throw new Exception(message: 'Unable to open file');
     }

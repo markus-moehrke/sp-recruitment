@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-const LOG_PATH = './data/first50000.log';
+const LOG_PATH = './data/updatev12-access-pseudonymized.log';
 
 //------------------------------------------------------------------------------
 // Auto loader
@@ -23,19 +23,26 @@ try {
         $splitter = new LogSplitter();
         $multipleDevices = new MultipleDevicesTop10();
 
+        $count = 0;
+        $malformed = 0;
         foreach ($generator->execute() as $line) {
             if (is_string($line)) {
                 $separated = $splitter->execute(line: $line);
                 if (isset($separated['serial']) && isset($separated['ip'])) {
-                    $licence = new Licence($separated['serial']);
-                    $licence->addIp(ip: $separated['ip']);
-                    $multipleDevices->add(licence: $licence);
+                    $multipleDevices->add(
+                        serial: $separated['serial'],
+                        ip: $separated['ip']
+                    );
+                } else {
+                    $malformed++;
                 }
             }
+            $count++;
         }
 
         $top10 = $multipleDevices->getTop10();
         print_r($top10);
+        print $count . '/' . $malformed . PHP_EOL;
     } else {
         throw new Exception(message: 'Unable to open file');
     }
